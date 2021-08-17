@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import requests,boto3,re,os
 from datetime import datetime,timedelta
 from os.path import join, dirname
@@ -60,6 +59,3 @@ def send_message():
     requests.post('https://notify-api.line.me/api/notify', headers=headers, files=files)
     
 send_message()
-=======
-print('Hello World')
->>>>>>> c00bd065300de3867f406f8e7f55a186b2161c4c
