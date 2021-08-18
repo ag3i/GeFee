@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 client = boto3.client('ce', region_name='us-east-1')
 dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
 
 # 合計請求額を取得
 def get_cost(client) -> dict:
@@ -33,6 +32,7 @@ def get_cost(client) -> dict:
 def calc_exchange():
 
     date = get_cost(client)
+    
     #get exchange yen-dollar
     exchange = requests.get('https://www.gaitameonline.com/rateaj/getrate').json()['quotes'][20]['open']
     total =  float(exchange)*float(date['billing'])
@@ -44,6 +44,8 @@ def calc_exchange():
 
 # LINEに通知
 def send_message():
+
+    load_dotenv(dotenv_path)
     token = os.environ["LINE_token"]
 
     headers = {
