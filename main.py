@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # 合計請求額を取得
 def get_cost():
-
+    # awsから料金を取得
     client = boto3.client('ce', region_name='us-east-1')
     
     start = datetime.now().replace(day=1).strftime('%F')
@@ -27,7 +27,6 @@ def get_cost():
         'end': response['ResultsByTime'][0]['TimePeriod']['End'],
         'billing': response['ResultsByTime'][0]['Total']['AmortizedCost']['Amount'],
     }
-    
     #　$　⇨　￥
     exchange = requests.get('https://www.gaitameonline.com/rateaj/getrate').json()['quotes'][20]['open']
     total =  float(exchange)*float(date['billing'])
@@ -38,10 +37,8 @@ def get_cost():
     return f"({date['start']}から{date['end']}の利用料金は{d.group(1)}円です)"
 
 def main():
-    
     # 料金を取得
     text = get_cost()
-    
     # LINEに通知
     token = os.environ["LINE_token"]
     headers,files = {'Authorization':token,},{'message': (None,text),}
